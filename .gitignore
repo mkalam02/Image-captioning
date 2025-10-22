@@ -1,0 +1,32 @@
+# ===========================
+# Image Captioning Project
+# ===========================
+
+# Ignore datasets and images
+data/
+*.jpg
+*.jpeg
+*.png
+
+# Ignore model/feature artifacts
+*.npz
+*.h5
+*.keras
+
+# Jupyter + Python cache
+.ipynb_checkpoints/
+__pycache__/
+
+# Virtual environments
+env/
+venv/
+cap_env/
+fer_env/
+
+# Secrets
+.kaggle/
+kaggle.json
+
+# OS cruft
+Thumbs.db
+.DS_Store
