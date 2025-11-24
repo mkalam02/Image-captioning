@@ -1,39 +1,90 @@
-# Image Captioning using CNN + LSTM
+# Image Captioning using EfficientNetB3, GloVe Embeddings, and Beam Search
 
 This project generates natural language captions for images using a **CNN + LSTM-based deep learning model**.  
-It combines **computer vision** and **natural language processing (NLP)** to describe what is happening in an image.
+It combines **computer vision** and **natural language processing (NLP)The model was progressively upgraded from an initial baseline to a more advanced and semantically powerful architecture.
+
+This final version uses:
+
+EfficientNetB3 for visual feature extraction
+
+GloVe 100D pretrained embeddings for richer semantic understanding
+
+Beam Search decoding for more fluent captions
 
 ---
 
-##  Project Overview
+##  Project Evolution (Upgrades Made)
+1. EfficientNetB0 → EfficientNetB3
 
-The model extracts **visual features** from an image using **EfficientNetB0 (CNN)**,  
-then passes these features into a **sequence decoder (LSTM)** that generates a descriptive caption word by word.
+The original encoder used EfficientNetB0 (1280-dim features).
+This was upgraded to EfficientNetB3 (1536-dim features), providing:
 
-Example:
+higher-quality feature representations
 
-| Input Image | Predicted Caption |
-|--------------|------------------|
-| 🧍‍♀️👕 | *"a woman in a blue and white shirt is jogging on a road"* |
+better generalization on diverse scenes
+
+improved caption detail and accuracy
+
+2. Random Embeddings → GloVe Pretrained Embeddings
+
+Earlier, embeddings were randomly initialized and learned from scratch.
+The new version uses GloVe 100D pretrained word embeddings, giving:
+
+better semantics (related words are close)
+
+more natural sentence structure
+
+more diverse and meaningful vocabulary usage
+
+3. Beam Search Decoding
+
+Greedy decoding selects the highest-probability word at each step but often produces short or generic captions.
+Beam Search evaluates multiple caption paths and chooses the best one.
+
+This results in:
+
+more complete captions
+
+fewer repetitive phrases
+
+more accurate descriptions
+
+Example
+Input Image	Predicted Caption
+🧍‍♀️👕	"a woman in a blue and white shirt is jogging on a road"
 
 ---
 
-## 🧠 Model Architecture
+## Model Architecture
+1. CNN Encoder – EfficientNetB3
 
-1. **Feature Extractor (CNN)**  
-   - Pretrained **EfficientNetB0** is used to encode image features (1280-dimensional).  
-   - These features represent the high-level visual content.
+Pretrained on ImageNet
 
-2. **Caption Decoder (LSTM)**  
-   - A sequential model with:
-     - Embedding layer  
-     - LSTM layers  
-     - Dense + Softmax for word prediction  
-   - Trained to predict the next word in a caption given the previous words and image context.
+Outputs a 1536-dimensional feature vector
+
+Extracts high-level semantic information from images
+
+2. Text Embedding – GloVe 100D
+
+Pretrained word vectors
+
+Fine-tuned on Flickr8k captions
+
+Maps words into a meaningful semantic space
+
+3. Caption Decoder – LSTM
+
+LSTM size: 512 units
+
+Time-Distributed Dense softmax layer
+
+Teacher forcing during training
+
+Max sequence length: 20 tokens
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 - **Dataset:** [Flickr8k](https://www.kaggle.com/datasets/adityajn105/flickr8k)
 - **Images:** 8,000 photos
@@ -61,3 +112,4 @@ Each caption describes the content of the corresponding image in natural English
 ```bash
 git clone https://github.com/mkalam02/image-captioning.git
 cd image-captioning
+pip install -r requirements.txt
